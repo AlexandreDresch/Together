@@ -1,8 +1,9 @@
 import { AtSignIcon, UserIcon, X } from "lucide-react";
+import { FormEvent } from "react";
 
 interface ConfirmEventModalProps {
   closeConfirmEventModal: () => void;
-  createEvent: () => void;
+  createEvent: (e: FormEvent<HTMLFormElement>) => void;
 }
 
 export default function ConfirmEventModal({
