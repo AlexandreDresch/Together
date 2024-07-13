@@ -7,12 +7,14 @@ import {
   X,
   AtSignIcon,
   PlusIcon,
+  UserIcon,
 } from "lucide-react";
 import { FormEvent, useState } from "react";
 
 function App() {
   const [isGuestsInputOpen, setIsGuestsInputOpen] = useState(false);
   const [isGuestsModalOpen, setIsGuestsModalOpen] = useState(false);
+  const [isConfirmEventModalOpen, setIsConfirmEventModalOpen] = useState(false);
   const [emailsToInvite, setEmailsToInvite] = useState<string[]>([]);
 
   function openGuestsInput() {
@@ -49,8 +51,16 @@ function App() {
     setEmailsToInvite(emailsToInvite.filter((e) => e !== email));
   }
 
+  function openConfirmEventModal() {
+    setIsConfirmEventModalOpen(true);
+  }
+
+  function closeConfirmEventModal() {
+    setIsConfirmEventModalOpen(false);
+  }
+
   return (
-    <div className="bg-pattern flex h-screen items-center justify-center bg-center bg-no-repeat">
+    <div className="flex h-screen items-center justify-center bg-pattern bg-center bg-no-repeat">
       <div className="w-full max-w-3xl space-y-10 px-6 text-center">
         <div className="flex flex-col items-center gap-3">
           <div className="flex items-center gap-1">
@@ -64,7 +74,7 @@ function App() {
         </div>
 
         <section className="space-y-4">
-          <div className="shadow-shape flex h-16 items-center gap-3 rounded-xl bg-zinc-900 px-4">
+          <div className="flex h-16 items-center gap-3 rounded-xl bg-zinc-900 px-4 shadow-shape">
             <div className="flex flex-1 items-center gap-2">
               <MapPinIcon className="size-5 text-zinc-400" />
               <input
@@ -107,20 +117,25 @@ function App() {
           </div>
 
           {isGuestsInputOpen && (
-            <div className="shadow-shape flex h-16 items-center gap-3 rounded-xl bg-zinc-900 px-4">
+            <div className="flex h-16 items-center gap-3 rounded-xl bg-zinc-900 px-4 shadow-shape">
               <div
                 className="flex flex-1 items-center gap-2"
                 onClick={openGuestsModal}
               >
                 <UserRoundPlusIcon className="size-5 text-zinc-400" />
-                <input
-                  type="text"
-                  placeholder="Who's coming with you?"
-                  className="flex-1 bg-transparent text-lg outline-none placeholder:text-zinc-400"
-                />
+                <span
+                  className={`flex-1 text-lg text-zinc-400 ${emailsToInvite.length > 0 && "text-left"}`}
+                >
+                  {emailsToInvite.length === 0
+                    ? "Who's coming with you?"
+                    : `${emailsToInvite.length} invited person(s).`}
+                </span>
               </div>
 
-              <button className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400">
+              <button
+                onClick={openConfirmEventModal}
+                className="flex items-center gap-2 rounded-lg bg-lime-300 px-5 py-2 font-medium text-lime-950 hover:bg-lime-400"
+              >
                 <span>Confirm Event</span>
               </button>
             </div>
@@ -142,7 +157,7 @@ function App() {
 
         {isGuestsModalOpen && (
           <div className="fixed inset-0 flex items-center justify-center bg-black/60">
-            <div className="shadow-shape w-[640px] space-y-5 rounded-xl bg-zinc-900 px-6 py-5">
+            <div className="w-[640px] space-y-5 rounded-xl bg-zinc-900 px-6 py-5 shadow-shape">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold">Select guests</h2>
@@ -205,6 +220,65 @@ function App() {
                 >
                   <span>Add</span>
                   <PlusIcon className="size-5" />
+                </button>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {isConfirmEventModalOpen && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black/60">
+            <div className="w-[640px] space-y-5 rounded-xl bg-zinc-900 px-6 py-5 shadow-shape">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-lg font-semibold">Confirm event</h2>
+
+                  <button
+                    type="button"
+                    className="text-zinc-400 hover:text-zinc-300"
+                    onClick={closeConfirmEventModal}
+                  >
+                    <X className="size-5" />
+                  </button>
+                </div>
+
+                <p className="text-left text-sm text-zinc-400">
+                  To confirm the creation of the{" "}
+                  <span className="font-semibold text-zinc-100">Trip</span>{" "}
+                  event from{" "}
+                  <span className="font-semibold text-zinc-100">
+                    August 14 to 16, 2024
+                  </span>
+                  , fill in your details below.
+                </p>
+              </div>
+
+              <form onSubmit={addNewEmailToInvite} className="space-y-3">
+                <div className="flex h-14 items-center justify-between gap-2 rounded-lg border-zinc-800 bg-zinc-950 px-2.5">
+                  <UserIcon className="size-5 text-zinc-400" />
+                  <input
+                    type="text"
+                    name="user"
+                    placeholder="Your name"
+                    className="flex-1 bg-transparent text-lg outline-none placeholder:text-zinc-400"
+                  />
+                </div>
+
+                <div className="flex h-14 items-center justify-between gap-2 rounded-lg border-zinc-800 bg-zinc-950 px-2.5">
+                  <AtSignIcon className="size-5 text-zinc-400" />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="example@example.com"
+                    className="flex-1 bg-transparent text-lg outline-none placeholder:text-zinc-400"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-lime-300 px-5 font-medium text-lime-950 hover:bg-lime-400"
+                >
+                  <span>Confirm</span>
                 </button>
               </form>
             </div>
