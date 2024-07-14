@@ -57,7 +57,7 @@ export default function InviteGuestsModal({
           })}
         </div>
 
-        <div className="bg-z h-px w-full" />
+        <div className="bg-zinc-800 h-px w-full" />
 
         <form
           onSubmit={addEmailToInvite}
