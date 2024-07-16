@@ -1,6 +1,7 @@
 import { AtSignIcon, PlusIcon, X } from "lucide-react";
 import { FormEvent } from "react";
 import Button from "../shared/button";
+import Modal from "../shared/modal";
 
 interface InviteGuestsModalProps {
   emailsToInvite: string[];
@@ -16,27 +17,14 @@ export default function InviteGuestsModal({
   removeEmailFromInvite,
 }: InviteGuestsModalProps) {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/60">
-      <div className="w-[640px] space-y-5 rounded-xl bg-zinc-900 px-6 py-5 shadow-shape">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold">Select guests</h2>
-
-            <button
-              type="button"
-              className="text-zinc-400 hover:text-zinc-300"
-              onClick={closeGuestsModal}
-            >
-              <X className="size-5" />
-            </button>
-          </div>
-
-          <p className="text-left text-sm text-zinc-400">
-            Guests will receive emails to confirm their participation in the
-            event.
-          </p>
-        </div>
-
+    <Modal
+      isOpen
+      onClose={closeGuestsModal}
+      title="Select guests"
+      subtitle="Guests will receive emails to confirm their participation in the event."
+      size="big"
+    >
+      <div className="space-y-2">
         <div className="flex flex-wrap gap-2">
           {emailsToInvite.map((email) => {
             return (
@@ -80,6 +68,6 @@ export default function InviteGuestsModal({
           </Button>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 }
