@@ -11,6 +11,7 @@ import CreateActivityModal from "../../components/modals/create-activity-modal";
 import LinksContainer from "../../components/dashboard/links-container";
 import GuestsContainer from "../../components/dashboard/guests-container";
 import ActivitiesContainer from "../../components/dashboard/activities-container";
+import Button from "../../components/shared/button";
 
 export default function DashboardPage() {
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
@@ -42,10 +43,13 @@ export default function DashboardPage() {
 
           <div className="h-6 w-px bg-zinc-800" />
 
-          <button className="flex items-center gap-2 rounded-lg bg-zinc-800 px-5 py-2 font-medium text-zinc-200 hover:bg-zinc-700">
+          <Button
+            onClick={() => {}}
+            variant="secondary"
+          >
             <span>Change location/date</span>
             <Settings2Icon className="size-5" />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -83,11 +87,7 @@ export default function DashboardPage() {
               },
               {
                 date: new Date("2024-06-30"),
-                activities: [
-                  { name: "Design Workshop", time: "11:00" },
-                  { name: "Marketing Strategy", time: "13:30" },
-                  { name: "Product Demo", time: "17:00" },
-                ],
+                activities: [],
               },
             ]}
           />

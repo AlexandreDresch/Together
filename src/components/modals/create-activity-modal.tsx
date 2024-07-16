@@ -1,4 +1,5 @@
 import { CalendarIcon, TagIcon, X } from "lucide-react";
+import Button from "../shared/button";
 
 interface CreateActivityModalProps {
   closeCreateActivityModal: () => void;
@@ -51,12 +52,9 @@ export default function CreateActivityModal({
             </div>
           </div>
 
-          <button
-            type="submit"
-            className="flex h-10 w-full items-center justify-center gap-2 rounded-lg bg-lime-300 px-5 font-medium text-lime-950 hover:bg-lime-400"
-          >
+          <Button type="submit" size="full">
             <span>Add Activity</span>
-          </button>
+          </Button>
         </form>
       </div>
     </div>

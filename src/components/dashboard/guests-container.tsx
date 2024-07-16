@@ -1,5 +1,6 @@
 import { UserCogIcon } from "lucide-react";
 import GuestItem, { Guest } from "./guest-item";
+import Button from "../shared/button";
 
 interface GuestsContainerProps {
   guests: Guest[];
@@ -16,10 +17,10 @@ export default function GuestsContainer({ guests }: GuestsContainerProps) {
         ))}
       </div>
 
-      <button className="flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-zinc-800 px-5 font-medium text-zinc-200 hover:bg-zinc-700">
+      <Button size="full" variant="secondary">
         <UserCogIcon className="size-5" />
         <span>Manage Guests</span>
-      </button>
+      </Button>
     </div>
   );
 }
