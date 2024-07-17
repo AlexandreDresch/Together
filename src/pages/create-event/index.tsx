@@ -7,6 +7,7 @@ import ConfirmEventModal from "../../components/modals/confirm-event-modal";
 import DestinationAndDateStep from "../../components/steps/destination-and-date-step";
 import InviteGuestsStep from "../../components/steps/invite-guests-step";
 import { DateRange } from "react-day-picker";
+import { postEvent } from "../../services/events-api";
 
 export default function CreateEventPage() {
   const navigate = useNavigate();
@@ -63,18 +64,38 @@ export default function CreateEventPage() {
     setIsConfirmEventModalOpen(false);
   }
 
-  function createEvent(e: FormEvent<HTMLFormElement>) {
+  async function createEvent(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    console.log({
-      ownerName,
-      ownerEmail,
+    if (
+      !selectedDays?.from ||
+      !selectedDays?.to ||
+      !destination ||
+      emailsToInvite.length === 0 ||
+      !ownerName ||
+      !ownerEmail
+    ) {
+      console.log("All fields are required");
+      return;
+    }
+
+    const eventData = {
       destination,
-      selectedDays,
-      emailsToInvite,
-    })
-    
-    navigate("/dashboard/123");
+      owner_name: ownerName,
+      owner_email: ownerEmail,
+      emails_to_invite: emailsToInvite,
+      starts_at: selectedDays.from.toISOString(),
+      ends_at: selectedDays.to.toISOString(),
+    };
+
+    try {
+      const response = await postEvent(eventData);
+      const { eventId } = response;
+
+      navigate(`/dashboard/${eventId}`);
+    } catch (error) {
+      console.error("Failed to create event:", error);
+    }
   }
 
   return (
