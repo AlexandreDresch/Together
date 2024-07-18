@@ -1,12 +1,27 @@
 import { UserCogIcon } from "lucide-react";
-import GuestItem, { Guest } from "./guest-item";
+import GuestItem from "./guest-item";
 import Button from "../shared/button";
+import { useParams } from "react-router-dom";
+import { Guest } from "../../types";
+import { useEffect, useState } from "react";
+import { getGuestsByEventId } from "../../services/events-api";
 
-interface GuestsContainerProps {
-  guests: Guest[];
-}
+export default function GuestsContainer() {
+  const { eventId } = useParams();
+  const [guests, setGuests] = useState<Guest[]>([]);
 
-export default function GuestsContainer({ guests }: GuestsContainerProps) {
+  useEffect(() => {
+    async function getGuestsData() {
+      if (!eventId) return;
+      const request = await getGuestsByEventId(eventId);
+
+      if (request) {
+        setGuests(request);
+      }
+    }
+
+    getGuestsData();
+  }, [eventId]);
   return (
     <div className="space-y-6">
       <h2 className="text-xl font-semibold">Guests</h2>

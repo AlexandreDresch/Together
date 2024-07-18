@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   CalendarIcon,
@@ -12,8 +12,28 @@ import LinksContainer from "../../components/dashboard/links-container";
 import GuestsContainer from "../../components/dashboard/guests-container";
 import ActivitiesContainer from "../../components/dashboard/activities-container";
 import Button from "../../components/shared/button";
+import { useParams } from "react-router-dom";
+import { getEventById } from "../../services/events-api";
+import { Event } from "../../types";
+import { format } from "date-fns";
 
 export default function DashboardPage() {
+  const { eventId } = useParams();
+  const [event, setEvent] = useState<Event | undefined>();
+
+  useEffect(() => {
+    async function getEventData() {
+      if (!eventId) return;
+      const request = await getEventById(eventId);
+
+      if (request) {
+        setEvent(request);
+      }
+    }
+
+    getEventData();
+  }, [eventId]);
+
   const [isCreateActivityModalOpen, setIsCreateActivityModalOpen] =
     useState(false);
 
@@ -25,28 +45,33 @@ export default function DashboardPage() {
     setIsCreateActivityModalOpen(false);
   }
 
+  const displayedDate =
+    event && event.starts_at && event.ends_at
+      ? format(event.starts_at, "'From 'd', 'LLL").concat(
+          format(event.ends_at, "' to 'd', 'LLL"),
+        )
+      : null;
+
+    console.log(displayedDate)
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
       <div className="flex h-16 items-center justify-between rounded-xl bg-zinc-900 px-4 shadow-shape">
         <div className="flex items-center gap-2">
           <MapPinIcon className="size-5 text-zinc-400" />
 
-          <span className="text-lg text-zinc-100">Antarctica</span>
+          <span className="text-lg text-zinc-100">{event?.destination}</span>
         </div>
 
         <div className="flex items-center gap-5">
           <div className="flex items-center gap-2">
             <CalendarIcon className="size-5 text-zinc-400" />
 
-            <span className="text-zinc-100">28 to 30, August</span>
+            <span className="text-zinc-100">{displayedDate}</span>
           </div>
 
           <div className="h-6 w-px bg-zinc-800" />
 
-          <Button
-            onClick={() => {}}
-            variant="secondary"
-          >
+          <Button onClick={() => {}} variant="secondary">
             <span>Change location/date</span>
             <Settings2Icon className="size-5" />
           </Button>
@@ -103,12 +128,7 @@ export default function DashboardPage() {
 
           <div className="h-px w-full bg-zinc-800" />
 
-          <GuestsContainer
-            guests={[
-              { name: "John", email: "john@email.com", isConfirmed: false },
-              { name: "Anna", email: "anna@email.com", isConfirmed: true },
-            ]}
-          />
+          <GuestsContainer />
         </section>
       </main>
 
