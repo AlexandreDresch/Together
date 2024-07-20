@@ -46,13 +46,12 @@ export default function DashboardPage() {
   }
 
   const displayedDate =
-    event && event.starts_at && event.ends_at
-      ? format(event.starts_at, "'From 'd', 'LLL").concat(
-          format(event.ends_at, "' to 'd', 'LLL"),
+    event && event.startsAt && event.endsAt
+      ? format(event.startsAt, "'From 'd', 'LLL").concat(
+          format(event.endsAt, "' to 'd', 'LLL"),
         )
       : null;
 
-    console.log(displayedDate)
   return (
     <div className="mx-auto max-w-6xl space-y-8 px-6 py-10">
       <div className="flex h-16 items-center justify-between rounded-xl bg-zinc-900 px-4 shadow-shape">

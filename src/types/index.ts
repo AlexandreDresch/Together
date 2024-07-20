@@ -14,9 +14,9 @@ export interface CreateEventResponse {
 export interface Event {
   id: string;
   destination: string;
-  starts_at: string;
-  ends_at: string;
-  is_confirmed: boolean;
+  startsAt: string;
+  endsAt: string;
+  isConfirmed: boolean;
 }
 
 export interface Guest {
