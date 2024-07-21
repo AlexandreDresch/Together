@@ -25,3 +25,14 @@ export interface Guest {
   email: string;
   is_confirmed: boolean;
 }
+
+export interface CreateActivity {
+  title: string;
+  occurs_at: string;
+}
+
+export interface Activity {
+  activityId: string;
+  title: string;
+  occurs_at: string;
+}

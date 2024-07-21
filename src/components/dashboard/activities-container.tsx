@@ -1,12 +1,25 @@
-import ActivityItem, { Activity } from "./activity-item";
+import { useEffect, useState } from "react";
+import ActivityItem from "./activity-item";
+import { useParams } from "react-router-dom";
+import { getActivitiesByEventId } from "../../services/events-api";
+import { Activity } from "../../types";
 
-interface ActivitiesContainerProps {
-  activities: Activity[];
-}
+export default function ActivitiesContainer() {
+  const { eventId } = useParams();
+  const [activities, setActivities] = useState<Activity[]>([]);
 
-export default function ActivitiesContainer({
-  activities,
-}: ActivitiesContainerProps) {
+  useEffect(() => {
+    async function getEventActivities() {
+      if (!eventId) return;
+      const request = await getActivitiesByEventId(eventId);
+
+      if (request) {
+        setActivities(request);
+      }
+    }
+
+    getEventActivities();
+  }, [eventId]);
   return (
     <div className="space-y-8">
       {activities.map((activity, index) => (

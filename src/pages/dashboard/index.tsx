@@ -91,30 +91,7 @@ export default function DashboardPage() {
             </button>
           </div>
 
-          <ActivitiesContainer
-            activities={[
-              {
-                date: new Date("2024-06-28"),
-                activities: [
-                  { name: "Team Meeting", time: "10:00" },
-                  { name: "Project Planning", time: "14:00" },
-                  { name: "Code Review", time: "16:00" },
-                ],
-              },
-              {
-                date: new Date("2024-06-29"),
-                activities: [
-                  { name: "Client Presentation", time: "09:30" },
-                  { name: "Lunch with Team", time: "12:00" },
-                  { name: "Development Sprint", time: "15:00" },
-                ],
-              },
-              {
-                date: new Date("2024-06-30"),
-                activities: [],
-              },
-            ]}
-          />
+          <ActivitiesContainer />
         </section>
 
         <section className="w-80 space-y-6">
